@@ -1,0 +1,35 @@
+Database that stores electronic components. Some kind of lookup web interface. 
+
+A component has some information attached:
+	- ID
+	- Name
+	- Component type(?)
+	- Number of components
+	- An image(?)
+
+Then subentities for every component type, eg.
+
+Transistor(ComponentName, Type(PNP,NPN), …)
+
+Component(Name, Type, Amount)
+
+Web interface should let you search for compomnents, insert new components and
+create new component types. 
+
+Search
+	Should be able to search after component name and filter by component
+	type. Also filter after component specific properties. 
+
+Insert new component
+	A component has to have a type and will have component specific info
+	för every component type.
+
+Create new component type
+	Should be able to add a component type and edit existing types
+
+Interface should work well in both a computer and on a phone
+
+API endpoints:
+	/api/getComponents
+		Get a JSON array of every component in the Component table
+
