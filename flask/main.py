@@ -13,6 +13,11 @@ dbConnection = pymysql.connect(host='localhost',
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor)
 
+def response(str):
+    resp = flask.Response(str)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
 @app.route("/api/hello")
 def hello():
     return json.dumps("Hello World!")
@@ -24,9 +29,7 @@ def getComponents():
         cursor.execute(sql)
         result = cursor.fetchall()
 
-        resp = flask.Response(json.dumps(result))
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        return resp
+        return response(json.dumps(result))
 
 @app.route("/api/getComponentTypes")
 def getComponentTypes():
@@ -35,9 +38,7 @@ def getComponentTypes():
         cursor.execute(sql)
         result = cursor.fetchall()
 
-        resp = flask.Response(json.dumps(result))
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        return resp
+        return response(json.dumps(result))
 
 @app.route("/api/setComponentAmount")
 def setComponentAmount():
@@ -58,7 +59,18 @@ def setComponentAmount():
         cursor.execute(sql, (amount, ID))
         dbConnection.commit()
 
-        resp = flask.Response("")
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        return resp
+        return response("")
+
+@app.route("/api/addComponentType")
+def addComponentType():
+    type = request.args.get('type')
+
+    with dbConnection.cursor() as cursor:
+        sql = """
+            INSERT INTO ComponentType VALUES (%s);
+        """
+        cursor.execute(sql, (type))
+        dbConnection.commit()
+
+        return response("")
 
