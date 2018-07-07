@@ -16,6 +16,7 @@ dbConnection = pymysql.connect(host='localhost',
 def response(str):
     resp = flask.Response(str)
     resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = 'application/json'
     return resp
 
 @app.route("/api/hello")
@@ -25,8 +26,13 @@ def hello():
 @app.route("/api/getComponents")
 def getComponents():
     with dbConnection.cursor() as cursor:
-        sql = 'SELECT * FROM Component'
-        cursor.execute(sql)
+        type = request.args.get('type')
+        if type is None or not type.strip():
+            sql = 'SELECT * FROM Component'
+            cursor.execute(sql)
+        else:
+            sql = 'SELECT * FROM Component WHERE Type=%s'
+            cursor.execute(sql, (type))
         result = cursor.fetchall()
 
         return response(json.dumps(result))

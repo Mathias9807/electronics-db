@@ -28,6 +28,9 @@ class ListItem extends Component {
   }
 }
 
+/**
+ *  List of components, can filter by component type (compType)
+ */
 class List extends Component {
 
   constructor(props) {
@@ -40,8 +43,20 @@ class List extends Component {
     this.loadComps();
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+
+    // Reload components if the filter type has changed
+    if (prevProps.compType !== this.props.compType) {
+      this.loadComps();
+    }
+  }
+
   loadComps = () => {
-    fetch(process.env.REACT_APP_API_URL + '/getComponents').then(resp => {
+    let arg = (this.props.compType && this.props.compType.Name)
+                ? '?type=' + this.props.compType.Name
+                : '';
+
+    fetch(process.env.REACT_APP_API_URL + '/getComponents' + arg).then(resp => {
 
       resp.json().then(data => {
         this.setState((prevState) => {

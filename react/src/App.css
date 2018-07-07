@@ -62,6 +62,8 @@ html, body {
 
 	.header {
 		border-radius: 0;
+		padding-left: 0.4em;
+		padding-bottom: 0.2em;
 	}
 
 	.content {
@@ -110,6 +112,10 @@ html, body {
 	border: solid 2px #444;
 	background-color: #FFF;
 	color: #444;
+}
+
+.selectedTag {
+	text-decoration: underline;
 }
 
 // vim: ts=2

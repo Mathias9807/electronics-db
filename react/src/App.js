@@ -8,7 +8,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cTypes: []
+      cTypes: [],
+      selectedTag: null,
     };
   }
 
@@ -32,8 +33,22 @@ class App extends Component {
     ];
 
     return typeArr.map((typeInfo, index) =>
-      <Tag key={index} type={typeInfo} />
+      <Tag key={index} type={typeInfo} className={
+        (typeInfo === this.state.selectedTag) ? "selectedTag" : ""}
+        onClick={() => this.selectTag(index)} />
     );
+  }
+
+  selectTag = (tagIndex) => {
+    if (typeof this.state.cTypes[tagIndex] === 'undefined') {
+      return;
+    }
+
+    if (this.state.cTypes[tagIndex] === this.state.selectedTag) {
+      this.setState({selectedTag: null});
+    }else {
+      this.setState({selectedTag: this.state.cTypes[tagIndex]});
+    }
   }
 
   render() {
@@ -48,7 +63,7 @@ class App extends Component {
             {this.getTags()}
           </div>
 
-					<List />
+					<List compType={this.state.selectedTag} />
 				</div>
 
 				<div className="footer">
@@ -61,7 +76,8 @@ class App extends Component {
 
 class Tag extends Component {
   render() {
-    return <div className="tag">
+    return <div className={"tag " + this.props.className}
+          onClick={this.props.onClick}>
         {this.props.type.Name}
       </div>;
   }

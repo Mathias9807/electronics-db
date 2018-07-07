@@ -32,6 +32,7 @@ Interface should work well in both a computer and on a phone
 API endpoints:
 	/api/getComponents
 		Get a JSON array of every component in the Component table
+		?type=*		- Select by type
 	/api/getComponentTypes
 	/api/setComponentAmount?ID&amount
 	/api/addComponent?name&type
